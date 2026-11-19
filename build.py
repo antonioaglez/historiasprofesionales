@@ -432,6 +432,13 @@ def lite_yt(e, rel=""):
             f'<span class="play">{icon("play")}</span></button>')
 
 
+def fallback_attr(e):
+    """Si la portada ligera no carga, usar la original de Spotify/YouTube."""
+    if e["image_web"] != e["image"] and e["image"].startswith("http"):
+        return f' onerror="this.onerror=null;this.src=\'{esc(e["image"])}\'"'
+    return ""
+
+
 def card(e, rel="", h="h3"):
     img = e["image_web"]
     meta = " · ".join(x for x in [fecha_corta(e["date"]), duracion(e["duration"])] if x)
@@ -439,7 +446,7 @@ def card(e, rel="", h="h3"):
     href = f"{rel}episodios/{e['slug']}/index.html"
     return f"""<article class="card reveal" data-search="{esc(e['search_short'])}" data-slug="{e['slug']}" data-sector="{e['sector']}">
   <a class="card-btn" href="{href}" data-ep="{e['slug']}" aria-label="{esc(e['title'])}">
-    <span class="card-img"><img loading="lazy" src="{esc(img if img.startswith('http') else rel + img)}" alt="" width="400" height="400"><span class="num">{num}</span><span class="card-play" aria-hidden="true">{icon("play")}</span></span>
+    <span class="card-img"><img loading="lazy" src="{esc(img if img.startswith('http') else rel + img)}"{fallback_attr(e)} alt="" width="400" height="400"><span class="num">{num}</span><span class="card-play" aria-hidden="true">{icon("play")}</span></span>
     <span class="card-body">
       <{h} class="card-h">{esc(e['guest'])}</{h}>
       <span class="role">{esc(e['role'])}</span>
@@ -711,7 +718,7 @@ def build_episode(e, eps, show):
     prev_e = eps[idx + 1] if idx + 1 < len(eps) else None
     next_e = eps[idx - 1] if idx > 0 else None
     sector = next((s for s in CFG["sectores"] if s["slug"] == e["sector"]), None)
-    media = lite_yt(e, rel) if e["youtube"] else f'<img class="cover" src="{esc(e["image_web"] if e["image_web"].startswith("http") else rel + e["image_web"])}" alt="">'
+    media = lite_yt(e, rel) if e["youtube"] else f'<img class="cover" src="{esc(e["image_web"] if e["image_web"].startswith("http") else rel + e["image_web"])}"{fallback_attr(e)} alt="">'
     topics = "".join(f'<li><span class="t-emoji" aria-hidden="true">{esc(em)}</span><span>{esc(t)}</span></li>' for em, t in e["topics"])
     topics_html = f'<h2>Temas clave</h2><ul class="topics">{topics}</ul>' if topics else ""
     tr = e["transcript_paras"]
