@@ -83,6 +83,18 @@ def split_title(title):
     return num, guest.strip(), role.strip()
 
 
+NUM_RE = re.compile(r"(?:#\s?|\bEp\.?\s?|\bEpisodio\s)(\d+)\b", re.I)
+
+
+def ep_num(title):
+    """Número del episodio con cualquier formato de título: 'Episodio #30 | …', '… · Ep. 30', '… #30'."""
+    n = split_title(title)[0]
+    if n is None:
+        m = NUM_RE.search(title or "")
+        n = int(m.group(1)) if m else None
+    return n
+
+
 def spotify_url(link, transcript):
     """El RSS no trae el enlace de open.spotify.com, pero la URL de la transcripción lleva el ID del episodio:
     transcript-files.spotifycdn.com/<show>/<episodio>/transcript.srt"""
@@ -99,6 +111,8 @@ def parse_rss(xml_bytes):
     for it in ch.findall("item"):
         title = it.findtext("title", "")
         num, guest, role = split_title(title)
+        if num is None:  # título nuevo (estilo SEO): número aquí, nombre y rol desde data/episodios.json
+            num, guest, role = ep_num(title), "", ""
         enc = it.find("enclosure")
         im = it.find("itunes:image", NS)
         tr = it.find("podcast:transcript", NS)
@@ -130,12 +144,9 @@ def parse_youtube(xml_bytes):
         if "/shorts/" in href:
             continue
         title = e.findtext("atom:title", "", NS)
-        num, _, _ = split_title(title)
-        if num is None:  # títulos tipo "¿Cómo es ser…? | Nombre · Historias Profesionales Ep. 30"
-            m = re.search(r"(?:#\s?|\bEp\.?\s?|\bEpisodio\s)(\d+)\b", title)
-            if not m:
-                continue
-            num = int(m.group(1))
+        num = ep_num(title)  # vale para "Episodio #30 | …" y "¿Cómo es ser…? | Nombre · Historias Profesionales Ep. 30"
+        if num is None:
+            continue
         out[str(num)] = {"id": e.findtext("yt:videoId", "", NS), "title": title,
                          "date": e.findtext("atom:published", "", NS)[:10]}
     return out
@@ -148,7 +159,7 @@ def fetch_apple():
     for r in data.get("results", []):
         if r.get("wrapperType") != "podcastEpisode":
             continue
-        num, _, _ = split_title(r.get("trackName", ""))
+        num = ep_num(r.get("trackName", ""))
         if num is not None and r.get("trackId"):
             out[str(num)] = f"https://podcasts.apple.com/es/podcast/id{CFG['apple_id']}?i={r['trackId']}"
     return out
@@ -160,6 +171,7 @@ def fetch_ivoox():
     for page in range(1, 8):
         html_ = fetch(CFG["ivoox_pages"].format(page)).decode("utf-8", "ignore")
         hits = re.findall(r"ivoox\.com/episodio-(\d+)-[a-z0-9-]*?_rf_(\d+)_1\.html", html_)
+        hits += re.findall(r"ivoox\.com/[a-z0-9-]*?-ep-(\d+)_rf_(\d+)_1\.html", html_)
         if not hits:
             break
         for n, rf in hits:
@@ -928,6 +940,25 @@ def main():
     show, eps = parse_rss(rss)
     if len(eps) < 5:
         sys.exit("ERROR: el RSS trae muy pocos episodios; no se publica para no romper la web.")
+
+    # Nombre y rol de cada episodio, guardados para no depender del formato del título en Spotify
+    epi_path = os.path.join(ROOT, "data", "episodios.json")
+    epi = json.load(open(epi_path, encoding="utf-8")) if os.path.exists(epi_path) else {}
+    for e in eps:
+        k = str(e["num"])
+        if e["num"] is None:
+            continue
+        if e["guest"]:
+            epi[k] = {"invitado": e["guest"], "rol": e["role"]}
+        elif k in epi:
+            e["title_plataforma"] = e["title"]
+            e["guest"], e["role"] = epi[k]["invitado"], epi[k]["rol"]
+            e["title"] = f"Episodio #{e['num']} | {e['guest']}" + (f" - {e['role']}" if e["role"] else "")
+        else:
+            print(f"Aviso: el episodio {k} no tiene nombre de invitado; añádelo en data/episodios.json", file=sys.stderr)
+    if not offline:
+        json.dump(dict(sorted(epi.items(), key=lambda kv: -int(kv[0]))), open(epi_path, "w", encoding="utf-8"),
+                  ensure_ascii=False, indent=1)
 
     # Vídeos de YouTube (el feed solo trae los 15 últimos; se guardan en data/youtube.json)
     cache_path = os.path.join(ROOT, "data", "youtube.json")
