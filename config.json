@@ -237,5 +237,11 @@
       "Lo presenta y produce Toni (Antonio Aguilera González), consultor de estrategia y creador de Historias Profesionales."
     ]
   ],
-  "goatcounter": "historiasprofesionales"
+  "goatcounter": "historiasprofesionales",
+  "proximo_invitado": {
+    "_info": "Rellenar cuando se anuncie en Instagram (nombre, rol y enlace opcional al post). Dejar nombre vacío para ocultarlo.",
+    "nombre": "",
+    "rol": "",
+    "enlace": ""
+  }
 }

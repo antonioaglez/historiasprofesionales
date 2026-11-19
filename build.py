@@ -557,6 +557,18 @@ def section_sobre_mi():
 """
 
 
+def proximo_html():
+    """Próximo invitado anunciado (config.json → proximo_invitado). Vacío = no se muestra."""
+    p = CFG.get("proximo_invitado") or {}
+    if not p.get("nombre"):
+        return ""
+    rol = f'<span class="next-rol">{esc(p["rol"])}</span>' if p.get("rol") else ""
+    link = (f' <a href="{esc(p["enlace"])}" target="_blank" rel="noopener">Ver el anuncio</a>'
+            if p.get("enlace") else "")
+    return (f'<div class="next-guest"><span class="next-lab">Próximo invitado</span>'
+            f'<strong>{esc(p["nombre"])}</strong>{rol}<span class="next-cta">¿Qué le preguntarías?{link}</span></div>')
+
+
 def section_preguntas():
     P = CFG["preguntas"]
     f = P["campos"]
@@ -566,6 +578,7 @@ def section_preguntas():
     <div class="preg-text">
       <p class="eyebrow">Participa</p>
       <h2 class="sec-title">Pregunta al próximo invitado</h2>
+      {proximo_html()}
       <p class="lead">Deja tu pregunta y, si sale elegida, se la haremos durante la grabación y diremos tu nombre. También puedes proponernos a alguien a quien te gustaría escuchar.</p>
       <p class="muted small">También recogemos preguntas en Instagram: <a href="https://www.instagram.com/historiasprofesionales/" target="_blank" rel="noopener">@historiasprofesionales</a>.</p>
     </div>
