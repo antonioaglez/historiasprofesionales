@@ -703,7 +703,7 @@ def build_index(show, eps):
 {modal_html()}
 {ep_data_json(eps)}
 """
-    title = f"{CFG['site_name']} · Pódcast de entrevistas sobre carreras y profesiones"
+    title = f"{CFG['site_name']} · Todo lo que no cabe en un currículum"
     return page(title, CFG["description"], body, "", "assets/og/portada.jpg", "", "", lds, home=True)
 
 
