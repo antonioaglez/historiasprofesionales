@@ -1,0 +1,241 @@
+{
+  "site_name": "Historias Profesionales",
+  "tagline": "Pódcast de entrevistas",
+  "description": "Pódcast de entrevistas en el que profesionales de todo tipo de sectores cuentan su trayectoria, cómo es de verdad su día a día, lo mejor y lo peor de su trabajo y los consejos que les habría gustado recibir.",
+  "site_url": "",
+  "rss_url": "https://anchor.fm/s/f00be078/podcast/rss",
+  "youtube_channel_id": "UCLRG3sUUdpcvV2HqFSGRR0Q",
+  "email": "historiasprofesionales@gmail.com",
+  "host": "Toni",
+  "platforms": [
+    {
+      "id": "spotify",
+      "name": "Spotify",
+      "url": "https://open.spotify.com/show/4SkJoT1uDcvz5z7GtbRD8K"
+    },
+    {
+      "id": "youtube",
+      "name": "YouTube",
+      "url": "https://www.youtube.com/@HistoriasProfesionales"
+    },
+    {
+      "id": "applepodcasts",
+      "name": "Apple Podcasts",
+      "url": "https://podcasts.apple.com/es/podcast/historias-profesionales/id1746814562"
+    },
+    {
+      "id": "amazonmusic",
+      "name": "Amazon Music",
+      "url": "https://music.amazon.es/podcasts/86dd1a91-1648-4208-b4af-95247f6c551f/historias-profesionales"
+    },
+    {
+      "id": "ivoox",
+      "name": "iVoox",
+      "url": "https://go.ivoox.com/sq/2592115"
+    }
+  ],
+  "socials": [
+    {
+      "id": "instagram",
+      "name": "Instagram",
+      "url": "https://www.instagram.com/historiasprofesionales/"
+    },
+    {
+      "id": "tiktok",
+      "name": "TikTok",
+      "url": "https://www.tiktok.com/@historiasprofesionales"
+    },
+    {
+      "id": "linkedin",
+      "name": "LinkedIn",
+      "url": "https://www.linkedin.com/company/historias-profesionales"
+    },
+    {
+      "id": "whatsapp",
+      "name": "Canal de WhatsApp",
+      "url": "https://whatsapp.com/channel/0029VaeuYZm0gcfBLrr98r08"
+    },
+    {
+      "id": "youtube",
+      "name": "YouTube",
+      "url": "https://www.youtube.com/@HistoriasProfesionales"
+    }
+  ],
+  "sobre_mi": {
+    "nombre": "Toni",
+    "titular": "Antonio Aguilera González · Senior Strategy Consultant y creador de Historias Profesionales",
+    "intro": [
+      "Me llamo Antonio, aunque todos me conocen como Toni, y soy de Málaga.",
+      "Movido por mi interés en la tecnología y la innovación, estudié Ingeniería Industrial, la más interdisciplinar. Durante el grado descubrí que lo que más me atraía era el mundo de la empresa y el management, así que me especialicé en Organización Industrial y después me vine a Madrid a cursar el doble Máster en Ingeniería Industrial y MBA de la Universidad Pontificia Comillas (ICAI-ICADE).",
+      "Allí descubrí la consultoría, que me atrapó por su dinamismo, su enorme curva de aprendizaje y la oportunidad de tener impacto en sectores muy distintos. Tras pasar por PwC y Nfq, hoy soy Senior Strategy Consultant en Nalba Advisors, una boutique de consultoría estratégica especializada en banca, medios de pago y fintech.",
+      "Desde que llegué a Madrid descubrí un mundo de empresas y trabajos que no conocía, y me di cuenta de que no era el único: cuando volvía a Málaga y contaba lo que veía, mi familia y mis amigos ni sabían que existían. Siempre me ha encantado escuchar a la gente contar cómo se gana la vida y qué le apasiona, porque cada historia me enseña mil cosas. De ahí nació Historias Profesionales, en enero de 2024."
+    ],
+    "fuera": [
+      "Psicología",
+      "Historia",
+      "Geopolítica",
+      "Negocios",
+      "Fútbol",
+      "Málaga CF",
+      "Artes marciales",
+      "Viajar",
+      "Cocinar",
+      "Motos",
+      "Videojuegos",
+      "Venture capital"
+    ],
+    "fuera_titulo": "Fuera del trabajo",
+    "linkedin": "https://www.linkedin.com/in/antonioaglez",
+    "foto": "assets/toni.jpg"
+  },
+  "apple_id": "1746814562",
+  "ivoox_pages": "https://www.ivoox.com/podcast-historias-profesionales_sq_f12592115_{}.html",
+  "host_full": "Antonio Aguilera González",
+  "preguntas": {
+    "form_action": "https://docs.google.com/forms/d/e/1FAIpQLSeRwQW6B-Q-7khaJblswWIfuYKyQY8rv3zHbRC5PuIJWkQykQ/formResponse",
+    "campos": {
+      "tipo": "entry.1503259026",
+      "nombre": "entry.123353781",
+      "instagram": "entry.1917132795",
+      "mensaje": "entry.99721325"
+    },
+    "csv": "https://docs.google.com/spreadsheets/d/e/2PACX-1vSIoFdJvFTKiYSWh5Hi0eh3EVIhAsMIKQIWKiYFtaD91ndT4XlWwxOLwBfvRPlPymFLjZKOeHqFcZpf/pub?gid=1343625155&single=true&output=csv",
+    "hoja": "https://docs.google.com/spreadsheets/d/1OhBuaOUS9wGQFStBjyHWJo2dXdAUKiwt7KBJxxFd9Sk/edit"
+  },
+  "sectores": [
+    {
+      "slug": "ingenieria",
+      "nombre": "Ingeniería, ciencia y arquitectura",
+      "corto": "Ingeniería",
+      "claves": [
+        "ingenier",
+        "arquitect",
+        "cient",
+        "investig",
+        "energ",
+        "aeroesp"
+      ],
+      "intro": "Ingenieros, científicos y arquitectos cuentan cómo es su trabajo por dentro: desde una plataforma petrolífera hasta la industria aeroespacial, la biomedicina o una obra."
+    },
+    {
+      "slug": "tecnologia",
+      "nombre": "Tecnología y datos",
+      "corto": "Tecnología",
+      "claves": [
+        "software",
+        "data",
+        "datos",
+        "developer",
+        "programad",
+        "technology",
+        "tecnolog"
+      ],
+      "intro": "Profesionales del software, los datos y la consultoría tecnológica explican qué hacen, cómo llegaron ahí y qué hace falta para dedicarse a ello."
+    },
+    {
+      "slug": "salud",
+      "nombre": "Salud",
+      "corto": "Salud",
+      "claves": [
+        "médic",
+        "medic",
+        "psicólog",
+        "fisioterap",
+        "enfermer",
+        "farmac",
+        "salud",
+        "odont"
+      ],
+      "intro": "Médicos, psicólogos y fisioterapeutas cuentan la realidad de la sanidad: guardias, consultas, vocación y lo que no se ve desde fuera."
+    },
+    {
+      "slug": "empresa",
+      "nombre": "Empresa, finanzas y derecho",
+      "corto": "Empresa y finanzas",
+      "claves": [
+        "consultor",
+        "auditor",
+        "financ",
+        "econom",
+        "banca",
+        "pagos",
+        "legal",
+        "abogad",
+        "derecho",
+        "fiscal",
+        "hacienda"
+      ],
+      "intro": "Consultores, auditores, economistas y juristas explican cómo es trabajar en el mundo de la empresa, las finanzas y el derecho, y cómo se entra."
+    },
+    {
+      "slug": "comunicacion",
+      "nombre": "Comunicación, arte y cultura",
+      "corto": "Comunicación y cultura",
+      "claves": [
+        "periodist",
+        "marketing",
+        "escritor",
+        "director de cine",
+        "productor",
+        "mago",
+        "orator",
+        "músic",
+        "actor",
+        "diseñ"
+      ],
+      "intro": "Periodistas, creativos, artistas y comunicadores cuentan cómo se abren camino en profesiones vocacionales y muy competitivas."
+    },
+    {
+      "slug": "emprendimiento",
+      "nombre": "Emprendimiento y negocio propio",
+      "corto": "Emprendimiento",
+      "claves": [
+        "emprend",
+        "fundador",
+        "dueño",
+        "gerente",
+        "ceo"
+      ],
+      "intro": "Personas que han montado o dirigen su propio negocio cuentan cómo empezaron, qué les costó y qué aprendieron por el camino."
+    },
+    {
+      "slug": "otros",
+      "nombre": "Vocaciones y otros oficios",
+      "corto": "Otros oficios",
+      "claves": [
+        "azafat",
+        "sacerdote",
+        "cura",
+        "piloto",
+        "agente"
+      ],
+      "intro": "Profesiones que mucha gente no conoce por dentro: oficios con vocación, servicio público y trabajos fuera de lo habitual."
+    }
+  ],
+  "legal": {
+    "titular": "Antonio Aguilera González"
+  },
+  "faq": [
+    [
+      "¿Dónde puedo escuchar Historias Profesionales?",
+      "En Spotify, YouTube, Apple Podcasts, Amazon Music e iVoox. En esta web tienes el enlace directo a cada episodio en cada plataforma."
+    ],
+    [
+      "¿Cómo puedo ser invitado o proponer a alguien?",
+      "Escríbenos a historiasprofesionales@gmail.com o usa el formulario de esta web y elige «Una propuesta de invitado»."
+    ],
+    [
+      "¿Puedo hacerle una pregunta al próximo invitado?",
+      "Sí. Envíala desde el formulario de esta web o por Instagram (@historiasprofesionales). Si sale elegida, se la hacemos durante la grabación."
+    ],
+    [
+      "¿Puedo preguntar de forma anónima?",
+      "Sí. Marca «Prefiero preguntar de forma anónima» en el formulario y tu pregunta aparecerá sin tu nombre."
+    ],
+    [
+      "¿Quién está detrás del pódcast?",
+      "Lo presenta y produce Toni (Antonio Aguilera González), consultor de estrategia y creador de Historias Profesionales."
+    ]
+  ],
+  "goatcounter": "historiasprofesionales"
+}
