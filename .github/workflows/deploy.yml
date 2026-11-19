@@ -1,0 +1,53 @@
+name: Publicar web
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: "17 6,18 * * *"   # dos veces al día (UTC): recoge solos los episodios nuevos
+  workflow_dispatch:           # botón "Run workflow" para actualizar en el momento
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Instalar Pillow (imágenes ligeras y de vista previa)
+        run: pip install pillow
+      - name: Generar la web (RSS, YouTube, Apple, iVoox, transcripciones)
+        env:
+          # Dirección pública de la web. Si en config.json pones "site_url", manda esa.
+          SITE_URL: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/
+        run: python build.py
+      - name: Guardar datos nuevos (vídeos, enlaces, transcripciones)
+        run: |
+          if [ -n "$(git status --porcelain data/)" ]; then
+            git config user.name "web-bot"
+            git config user.email "web-bot@users.noreply.github.com"
+            git add data/ && git commit -m "Actualiza datos de episodios" && git push
+          fi
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
