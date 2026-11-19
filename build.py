@@ -912,7 +912,16 @@ def make_images(eps, offline):
             d.text((x, y + 14), ln, font=fs, fill="#C9BBA6"); y += 40
         im.save(os.path.join(og_dir, name), quality=85, optimize=True)
 
-    og("portada.jpg", "PÓDCAST DE ENTREVISTAS", "Historias Profesionales", "Todo lo que no cabe en un currículum.")
+    # Portada: logo oficial centrado, para que se vea entero también en el recorte cuadrado de WhatsApp
+    logo_path = os.path.join(ROOT, "assets", "logo-oficial.png")
+    if os.path.exists(logo_path):
+        im = Image.new("RGB", (1200, 630), (31, 16, 11))
+        lg = Image.open(logo_path).convert("RGB")
+        w = 560; h = int(lg.height * w / lg.width)
+        im.paste(lg.resize((w, h), Image.LANCZOS), ((1200 - w) // 2, (630 - h) // 2))
+        im.save(os.path.join(og_dir, "portada.jpg"), quality=88, optimize=True)
+    else:
+        og("portada.jpg", "PÓDCAST DE ENTREVISTAS", "Historias Profesionales", "Todo lo que no cabe en un currículum.")
     for e in eps:
         cover = None
         src = e["image"]
