@@ -85,6 +85,7 @@ h1,h2,h3{font-family:var(--display);font-weight:400;line-height:1.05;margin:0;le
 .search:focus-within{border-color:var(--orange)}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:20px}
 .card{display:flex}
+.card[hidden]{display:none!important}
 .card-btn{all:unset;box-sizing:border-box;cursor:pointer;width:100%;background:var(--bg2);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column;transition:transform .2s,border-color .2s}
 .card-btn:hover,.card-btn:focus-visible{transform:translateY(-3px);border-color:rgba(224,122,74,.55)}
 .card-btn:focus-visible{outline:2px solid var(--orange);outline-offset:2px}
@@ -335,3 +336,10 @@ a:focus-visible,button:focus-visible,summary:focus-visible,select:focus-visible,
   .ep-media{order:-1}
   .side-box{position:static}
 }
+
+.next-guest{display:flex;flex-direction:column;gap:4px;background:var(--bg2);border:1px solid var(--line);border-left:4px solid var(--orange,#E07A4A);border-radius:14px;padding:16px 18px;margin:0 0 18px}
+.next-guest .next-lab{font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#E07A4A}
+.next-guest strong{font-family:"Bowlby One SC",sans-serif;font-weight:400;font-size:22px;line-height:1.1}
+.next-guest .next-rol{color:var(--muted,#C9BBA6);font-size:15px}
+.next-guest .next-cta{margin-top:6px;font-weight:700;font-size:15px}
+.next-guest .next-cta a{color:#E07A4A;margin-left:6px}
