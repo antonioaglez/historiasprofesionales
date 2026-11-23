@@ -343,3 +343,11 @@ a:focus-visible,button:focus-visible,summary:focus-visible,select:focus-visible,
 .next-guest .next-rol{color:var(--muted,#C9BBA6);font-size:15px}
 .next-guest .next-cta{margin-top:6px;font-weight:700;font-size:15px}
 .next-guest .next-cta a{color:#E07A4A;margin-left:6px}
+/* Propón un invitado y sección de preguntas bloqueada */
+.proponer{padding:80px 0}
+.locked{align-items:flex-start;text-align:left}
+.locked .lock-ico{font-size:2rem;line-height:1}
+.locked h3{font-size:1.4rem;color:var(--cream)}
+.locked p{margin:0;color:var(--muted,#c9bfb0)}
+.locked a:not(.btn-ghost){color:var(--orange)}
+@media (max-width:860px){.proponer{padding:56px 0}}
