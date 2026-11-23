@@ -134,43 +134,45 @@
     document.addEventListener('keydown', function (ev) { if (ev.key === 'Escape' && !modal.hidden) close(); });
   }
 
-  // ---------- Formulario (se envía a Google Forms)
-  var form = document.getElementById('qform'), tipo = document.getElementById('tipo');
-  function setTipo(v) {
-    if (!tipo) return;
-    var map = { pregunta: 'Pregunta', invitado: 'Propuesta de invitado', otro: 'Otro' };
-    tipo.value = map[v] || v; tipo.dispatchEvent(new Event('change'));
+  // ---------- Formularios (se envían a Google Forms)
+  function setTipo() {}
+  function sendForm(form, btn, thanks, label, prep) {
+    form.addEventListener('submit', function (ev) {
+      ev.preventDefault();
+      if (prep) prep();
+      btn.disabled = true; btn.textContent = 'Enviando…';
+      var body = new URLSearchParams(new FormData(form));
+      fetch(form.dataset.action, { method: 'POST', mode: 'no-cors', body: body })
+        .then(function () { form.hidden = true; thanks.hidden = false; })
+        .catch(function () {
+          btn.disabled = false; btn.textContent = label;
+          var p = document.createElement('p'); p.className = 'form-err';
+          p.textContent = 'No se ha podido enviar. Inténtalo de nuevo en un momento.'; form.appendChild(p);
+        });
+    });
   }
+  var form = document.getElementById('qform');
   if (form) {
-    var lab = document.getElementById('msg-label');
-    var set = function () {
-      lab.firstChild.nodeValue = { 'Pregunta': 'Tu pregunta', 'Propuesta de invitado': '¿A quién te gustaría escuchar y por qué?', 'Otro': 'Tu mensaje' }[tipo.value];
-    };
-    tipo.addEventListener('change', set); set();
     var anon = document.getElementById('anon'), nombre = document.getElementById('nombre');
     anon.addEventListener('change', function () {
       document.getElementById('name-label').hidden = anon.checked;
       nombre.required = !anon.checked;
       document.getElementById('consent').textContent = anon.checked
-        ? 'Acepto que mi mensaje aparezca en esta web y se lea en el pódcast (sin mi nombre).'
-        : 'Acepto que mi mensaje y mi nombre aparezcan en esta web y se lean en el pódcast.';
+        ? 'Acepto que mi pregunta aparezca en esta web y se lea en el pódcast (sin mi nombre).'
+        : 'Acepto que mi pregunta y mi nombre aparezcan en esta web y se lean en el pódcast.';
     });
-    form.addEventListener('submit', function (ev) {
-      ev.preventDefault();
-      if (anon.checked) nombre.value = 'Anónimo';
-      var btn = document.getElementById('qsend'); btn.disabled = true; btn.textContent = 'Enviando…';
-      var body = new URLSearchParams(new FormData(form));
-      fetch(form.dataset.action, { method: 'POST', mode: 'no-cors', body: body })
-        .then(function () {
-          form.hidden = true; document.getElementById('thanks').hidden = false;
-        })
-        .catch(function () {
-          btn.disabled = false; btn.textContent = 'Enviar';
-          alertBox('No se ha podido enviar. Inténtalo de nuevo en un momento.');
-        });
+    sendForm(form, document.getElementById('qsend'), document.getElementById('thanks'), 'Enviar pregunta',
+      function () { if (anon.checked) nombre.value = 'Anónimo'; });
+  }
+  var pform = document.getElementById('pform');
+  if (pform) {
+    var v = function (id) { return (document.getElementById(id).value || '').trim(); };
+    sendForm(pform, document.getElementById('psend'), document.getElementById('pthanks'), 'Enviar propuesta', function () {
+      document.getElementById('pmsg').value =
+        'Propuesto: ' + v('p-quien') + '\nA qué se dedica: ' + v('p-rol') + '\nContacto: ' + v('p-contacto') +
+        (v('p-porque') ? '\nPor qué: ' + v('p-porque') : '') + (v('p-mail') ? '\nCorreo de quien propone: ' + v('p-mail') : '');
     });
   }
-  function alertBox(t) { var p = document.createElement('p'); p.className = 'form-err'; p.textContent = t; form.appendChild(p); }
 
   // ---------- Muro de preguntas publicadas (hoja de Google publicada en CSV)
   var muro = document.getElementById('muro');
@@ -194,7 +196,7 @@
     fetch(muro.dataset.csv + (muro.dataset.csv.indexOf('?') > -1 ? '&' : '?') + 't=' + Date.now())
       .then(function (r) { return r.text(); })
       .then(function (t) {
-        var rows = parseCSV(t).slice(1).filter(function (r) { return r[3] && r[3].trim(); });
+        var rows = parseCSV(t).slice(1).filter(function (r) { return r[3] && r[3].trim() && !/propuesta/i.test(r[1] || ''); });
         if (!rows.length) return;
         document.getElementById('muro-list').innerHTML = rows.map(function (r) {
           var tipo = r[1] && r[1] !== 'Pregunta' ? '<span class="q-tag">' + esc(r[1]) + '</span>' : '';
