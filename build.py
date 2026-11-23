@@ -327,7 +327,7 @@ def abs_url(path):
 def page(title, desc, body, rel="", og_image="", path="", extra_head="", ld=None, home=False):
     def nav_href(anchor):
         return f"#{anchor}" if home else f"{rel}index.html#{anchor}"
-    nav = [("episodios", "Episodios"), ("preguntas", "Pregunta al invitado"),
+    nav = [("episodios", "Episodios"), ("preguntas", "Pregunta al invitado"), ("proponer", "Propón un invitado"),
            ("sobre", "Sobre el pódcast"), ("sobre-mi", "Sobre mí")]
     nav_html = "".join(f'<a href="{nav_href(a)}" data-sec="{a}">{t}</a>' for a, t in nav)
     socials = "".join(
@@ -513,7 +513,7 @@ def section_sobre():
       <h3>Una tradición: el invitado propone a los siguientes</h3>
       <p>Al final de cada entrevista, el invitado propone a personas a las que le gustaría escuchar en el pódcast. No es una obligación ni todas acaban viniendo, pero muchas de las próximas historias llegan así.</p>
       <h3>Tú también formas parte</h3>
-      <p>Las preguntas de la audiencia se hacen durante la grabación. Puedes <a href="#preguntas">enviar la tuya aquí</a>, también de forma anónima.</p>
+      <p>Las preguntas de la audiencia se hacen durante la grabación. Cuando anunciamos al próximo invitado, puedes <a href="#preguntas">enviar la tuya aquí</a>, también de forma anónima. Y si conoces a alguien con una historia que merece ser contada, <a href="#proponer">propónnoslo</a>.</p>
       <h3>Quién lo presenta</h3>
       <p>Lo presenta y produce {esc(CFG['host'])}. <a href="#sobre-mi">Más sobre mí</a>.</p>
       {faq_html}
@@ -527,7 +527,7 @@ def section_sobre():
       </div>
       <div class="cta-btns">
         <a class="btn" href="mailto:{esc(CFG['email'])}?subject=Historias%20Profesionales">Escribir un correo</a>
-        <a class="btn-ghost" href="#preguntas" data-tipo="invitado">Proponer un invitado</a>
+        <a class="btn-ghost" href="#proponer">Proponer un invitado</a>
       </div>
     </div>
   </div>
@@ -572,6 +572,36 @@ def proximo_html():
 def section_preguntas():
     P = CFG["preguntas"]
     f = P["campos"]
+    abierto = bool((CFG.get("proximo_invitado") or {}).get("nombre"))
+    if abierto:
+        lado = f"""
+      <div class="thanks" id="thanks" hidden role="status">
+        <h3>¡Gracias!</h3>
+        <p>Tu pregunta ha llegado. La revisamos y, si encaja, aparecerá aquí abajo y la escucharás en el episodio.</p>
+      </div>
+      <form class="form" id="qform" data-action="{esc(P['form_action'])}">
+        <input type="hidden" name="{f['tipo']}" value="Pregunta">
+        <label class="check anon"><input type="checkbox" id="anon"> Prefiero preguntar de forma anónima</label>
+        <label id="name-label"><span>Tu nombre <span class="muted">(el que aparecerá en la web y diremos en el episodio)</span></span>
+          <input type="text" id="nombre" name="{f['nombre']}" required maxlength="80" autocomplete="name">
+        </label>
+        <label>Tu pregunta
+          <textarea name="{f['mensaje']}" required rows="5" maxlength="1500"></textarea>
+        </label>
+        <label class="check"><input type="checkbox" required> <span id="consent">Acepto que mi pregunta y mi nombre aparezcan en esta web y se lean en el pódcast.</span></label>
+        <p class="muted small legal-note">Más información en la <a href="privacidad/index.html">política de privacidad</a>.</p>
+        <button class="btn" type="submit" id="qsend">Enviar pregunta</button>
+      </form>"""
+        lead = "Deja tu pregunta y, si sale elegida, se la haremos durante la grabación y diremos tu nombre."
+    else:
+        lado = """
+      <div class="form locked" role="status">
+        <span class="lock-ico" aria-hidden="true">🔒</span>
+        <h3>Aún no hemos anunciado al próximo invitado</h3>
+        <p>En cuanto lo anunciemos en Instagram, podrás dejarle tu pregunta aquí. Mientras tanto, ¿conoces a alguien a quien te gustaría escuchar? <a href="#proponer">Propónnoslo</a>.</p>
+        <a class="btn-ghost" href="https://www.instagram.com/historiasprofesionales/" target="_blank" rel="noopener">Seguir en Instagram</a>
+      </div>"""
+        lead = "Cada vez que anunciamos a un invitado, abrimos este espacio para que le dejes tu pregunta. Si sale elegida, se la hacemos durante la grabación y decimos tu nombre."
     return f"""
 <section class="sec preguntas" id="preguntas">
   <div class="wrap preg-in">
@@ -579,33 +609,10 @@ def section_preguntas():
       <p class="eyebrow">Participa</p>
       <h2 class="sec-title">Pregunta al próximo invitado</h2>
       {proximo_html()}
-      <p class="lead">Deja tu pregunta y, si sale elegida, se la haremos durante la grabación y diremos tu nombre. También puedes proponernos a alguien a quien te gustaría escuchar.</p>
+      <p class="lead">{lead}</p>
       <p class="muted small">También recogemos preguntas en Instagram: <a href="https://www.instagram.com/historiasprofesionales/" target="_blank" rel="noopener">@historiasprofesionales</a>.</p>
     </div>
-    <div>
-      <div class="thanks" id="thanks" hidden role="status">
-        <h3>¡Gracias!</h3>
-        <p>Tu mensaje ha llegado. Lo revisamos y, si encaja, aparecerá aquí abajo y la escucharás en el episodio.</p>
-      </div>
-      <form class="form" id="qform" data-action="{esc(P['form_action'])}">
-        <label>¿Qué quieres enviarnos?
-          <select name="{f['tipo']}" id="tipo">
-            <option value="Pregunta">Una pregunta para el próximo invitado</option>
-            <option value="Propuesta de invitado">Una propuesta de invitado</option>
-            <option value="Otro">Otra cosa</option>
-          </select>
-        </label>
-        <label class="check anon"><input type="checkbox" id="anon"> Prefiero preguntar de forma anónima</label>
-        <label id="name-label"><span>Tu nombre <span class="muted">(el que aparecerá en la web y diremos en el episodio)</span></span>
-          <input type="text" id="nombre" name="{f['nombre']}" required maxlength="80" autocomplete="name">
-        </label>
-        <label id="msg-label">Tu pregunta
-          <textarea name="{f['mensaje']}" required rows="5" maxlength="1500"></textarea>
-        </label>
-        <label class="check"><input type="checkbox" required> <span id="consent">Acepto que mi mensaje y mi nombre aparezcan en esta web y se lean en el pódcast.</span></label>
-        <p class="muted small legal-note">Más información en la <a href="privacidad/index.html">política de privacidad</a>.</p>
-        <button class="btn" type="submit" id="qsend">Enviar</button>
-      </form>
+    <div>{lado}
     </div>
   </div>
   <div class="wrap" id="muro" data-csv="{esc(P['csv'])}" hidden>
@@ -614,6 +621,50 @@ def section_preguntas():
       <p class="muted small">Las preguntas se publican después de revisarlas.</p>
     </div>
     <div class="muro" id="muro-list"></div>
+  </div>
+</section>
+"""
+
+
+def section_proponer():
+    P = CFG["preguntas"]
+    f = P["campos"]
+    return f"""
+<section class="sec proponer" id="proponer">
+  <div class="wrap preg-in">
+    <div class="preg-text">
+      <p class="eyebrow">Propón</p>
+      <h2 class="sec-title">¿A quién te gustaría escuchar?</h2>
+      <p class="lead">¿Conoces a alguien con una profesión curiosa o una trayectoria que merece ser contada? Cuéntanos quién es y cómo podemos contactar con esa persona.</p>
+      <p class="muted small">Las propuestas no se publican: solo las usamos para valorarlas y, si encajan, escribir a la persona propuesta. También puedes escribirnos a <a href="mailto:{esc(CFG['email'])}">{esc(CFG['email'])}</a>.</p>
+    </div>
+    <div>
+      <div class="thanks" id="pthanks" hidden role="status">
+        <h3>¡Gracias!</h3>
+        <p>Tu propuesta ha llegado. La revisamos y, si encaja, nos pondremos en contacto con esa persona.</p>
+      </div>
+      <form class="form" id="pform" data-action="{esc(P['form_action'])}">
+        <input type="hidden" name="{f['tipo']}" value="Propuesta de invitado">
+        <input type="hidden" name="{f['mensaje']}" id="pmsg">
+        <label>¿A quién propones? <input type="text" id="p-quien" required maxlength="120" placeholder="Nombre y apellidos"></label>
+        <label>¿A qué se dedica? <input type="text" id="p-rol" required maxlength="160" placeholder="Profesión, cargo o empresa"></label>
+        <label><span>¿Cómo podemos contactarle? <span class="muted">(LinkedIn, Instagram, correo…)</span></span>
+          <input type="text" id="p-contacto" required maxlength="200" placeholder="Enlace o usuario">
+        </label>
+        <label>¿Por qué sería un buen invitado?
+          <textarea id="p-porque" rows="4" maxlength="1200" placeholder="Qué hace de especial su historia o su profesión"></textarea>
+        </label>
+        <label><span>Tu nombre <span class="muted">(no se publica)</span></span>
+          <input type="text" name="{f['nombre']}" required maxlength="80" autocomplete="name">
+        </label>
+        <label><span>Tu correo <span class="muted">(opcional, por si necesitamos más datos)</span></span>
+          <input type="text" id="p-mail" maxlength="120" autocomplete="email">
+        </label>
+        <label class="check"><input type="checkbox" required> <span>Confirmo que el contacto que facilito es público o que la persona propuesta está de acuerdo, y acepto que usemos estos datos solo para valorar la propuesta y contactar con ella.</span></label>
+        <p class="muted small legal-note">Más información en la <a href="privacidad/index.html">política de privacidad</a>.</p>
+        <button class="btn" type="submit" id="psend">Enviar propuesta</button>
+      </form>
+    </div>
   </div>
 </section>
 """
@@ -711,6 +762,7 @@ def build_index(show, eps):
   </div>
 </section>
 {section_preguntas()}
+{section_proponer()}
 {section_sobre()}
 {section_sobre_mi()}
 {modal_html()}
@@ -828,7 +880,9 @@ def build_legal(kind):
         content = f"""
 <p><strong>Responsable:</strong> {esc(L['titular'])}. Contacto: <a href="mailto:{esc(CFG['email'])}">{esc(CFG['email'])}</a>.</p>
 <h2>Qué datos recogemos y para qué</h2>
-<p>Solo a través del formulario «Pregunta al próximo invitado»: el tipo de mensaje, tu nombre (o «Anónimo» si eliges preguntar de forma anónima) y tu mensaje. Los usamos para leer tu pregunta o propuesta, para hacerla durante la grabación del pódcast y, si la aprobamos, para publicarla en esta web junto a tu nombre (o como «Anónimo») y la fecha.</p>
+<p>Solo a través de los formularios de esta web.</p>
+<p><strong>«Pregunta al próximo invitado»:</strong> tu nombre (o «Anónimo» si eliges preguntar de forma anónima) y tu pregunta. Los usamos para leer tu pregunta, para hacerla durante la grabación del pódcast y, si la aprobamos, para publicarla en esta web junto a tu nombre (o como «Anónimo») y la fecha.</p>
+<p><strong>«Propón un invitado»:</strong> tu nombre, tu correo si decides darlo y los datos de la persona que propones (nombre, a qué se dedica, un contacto y por qué la propones). Los usamos solo para valorar la propuesta y, si encaja, escribir a esa persona para invitarla. Las propuestas nunca se publican. Te pedimos que facilites solo un contacto público (por ejemplo, su perfil de LinkedIn o de Instagram) o uno que la persona propuesta haya aceptado compartir. Si eres la persona propuesta y no quieres que usemos tus datos, escríbenos y los borraremos.</p>
 <h2>Base legal</h2>
 <p>Tu consentimiento, que das al marcar la casilla del formulario. Puedes retirarlo cuando quieras escribiendo al correo de contacto.</p>
 <h2>Dónde se guardan y quién los trata</h2>
