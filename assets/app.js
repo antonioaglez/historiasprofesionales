@@ -28,7 +28,7 @@
   });
   function onScroll() {
     var y = window.pageYOffset + header.offsetHeight + window.innerHeight * 0.3, cur = '';
-    ['episodios', 'preguntas', 'sobre', 'sobre-mi'].forEach(function (id) {
+    ['episodios', 'preguntas', 'proponer', 'sobre', 'sobre-mi'].forEach(function (id) {
       var el = document.getElementById(id);
       if (el && el.offsetTop <= y) cur = id;
     });
