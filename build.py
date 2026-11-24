@@ -1083,6 +1083,12 @@ def main():
             eps.append({"num": n, "title": v["title"], "guest": g, "role": r, "date": d, "duration": "",
                         "image": yt_thumb(v["id"]), "audio": "", "spotify": "", "transcript": "",
                         "desc_html": "", "summary": "", "youtube": v["id"]})
+    desc_dir = os.path.join(ROOT, "data", "descripciones")  # descripción manual mientras el RSS no la trae
+    for e in eps:
+        f = os.path.join(desc_dir, f"{e['num']}.html")
+        if not e.get("desc_html") and os.path.exists(f):
+            raw = open(f, encoding="utf-8").read()
+            e["desc_html"], e["summary"] = clean_html(raw), text_of(raw)
     eps.sort(key=lambda e: (e["num"] if e["num"] is not None else -1, e["date"] or dt.datetime.min), reverse=True)
     eps = [e for e in eps if e["num"] != 0] + [e for e in eps if e["num"] == 0]
 
