@@ -1,6 +1,7 @@
 {
  "_info": "Enlaces por episodio. Apple e iVoox se actualizan solos; Spotify sale de la transcripción del RSS. Amazon Music hay que añadirlo a mano: copia el enlace completo del episodio en Amazon Music y pégalo aquí con su número.",
  "spotify": {
+  "31": "https://open.spotify.com/episode/5v6ZuKPBq3KNOxKic0p4b8",
   "0": "https://open.spotify.com/episode/2RE1IEPt5VYivZ0fbQKTGN",
   "1": "https://open.spotify.com/episode/2GEInqH8qjNmAzqxW7q6gE",
   "3": "https://open.spotify.com/episode/50XX18OUC7rYvqhuhE8dIj",
