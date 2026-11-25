@@ -505,7 +505,7 @@ def section_sobre():
     <p class="eyebrow">Sobre el pódcast</p>
     <h2 class="sec-title">Detrás de cada persona hay una historia</h2>
     <div class="prose">
-      <p class="lead">Historias Profesionales es un pódcast de entrevistas a profesionales de sectores muy distintos. Recorremos su trayectoria, entramos en qué consiste de verdad su trabajo y en la actualidad de su sector, conocemos las historias personales que hay detrás y les trasladamos las preguntas que nos dejáis en redes y en esta web.</p>
+      <p class="lead">Bienvenidos a Historias Profesionales, el podcast donde conocemos las trayectorias, experiencias y consejos de profesionales destacados de diversas industrias y roles. En cada entrevista entramos en qué consiste de verdad su trabajo y en la actualidad de su sector, conocemos las historias personales que hay detrás y les trasladamos las preguntas que nos dejáis en redes y en esta web.</p>
       <h3>Quiénes vienen de invitados</h3>
       <p>Por aquí han pasado una azafata, un mago, una arquitecta, un periodista, ingenieros, médicos, consultores, emprendedores… La idea es ir más allá del cargo y la empresa y conocer a la persona: lo mejor y lo peor de su profesión, sus fracasos, sus referentes y las anécdotas que no salen en el currículum.</p>
       <h3>Qué te vas a llevar</h3>
@@ -726,9 +726,12 @@ def build_index(show, eps):
       <h1>Último episodio</h1>
       <p class="hero-guest"><span class="hero-num">{esc(num_label)}</span> <a href="episodios/{latest['slug']}/index.html">{esc(latest['guest'])}</a></p>
       <p class="hero-role">{esc(latest['role'])} · {esc(fecha(latest['date']))}</p>
-      <div class="pbtns">{episode_buttons(latest)}</div>
     </div>
     <div class="hero-media">{media}</div>
+    <div class="hero-plats">
+      <p class="plats-label">Escúchalo o míralo en</p>
+      <div class="pbtns pbtns-big">{episode_buttons(latest)}</div>
+    </div>
   </div>
   <div class="wrap">
     <details class="ep-desc">
@@ -811,8 +814,8 @@ def build_episode(e, eps, show):
         <h1 class="ep-h1">{esc(e['guest'])}</h1>
         <p class="hero-role">{esc(e['role'])}</p>
         <p class="muted small">{esc(meta)}</p>
-        <p class="m-label">Escúchalo en</p>
-        <div class="pbtns">{episode_buttons(e)}</div>
+        <p class="plats-label">Escúchalo o míralo en</p>
+        <div class="pbtns pbtns-big">{episode_buttons(e)}</div>
       </div>
       <div class="ep-media">{media}</div>
     </div>
