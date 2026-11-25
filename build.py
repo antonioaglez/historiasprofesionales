@@ -505,7 +505,7 @@ def section_sobre():
     <p class="eyebrow">Sobre el pódcast</p>
     <h2 class="sec-title">Detrás de cada persona hay una historia</h2>
     <div class="prose">
-      <p class="lead">Historias Profesionales es un pódcast de entrevistas en el que profesionales de sectores muy distintos cuentan cómo llegaron a donde están: qué estudiaron, qué decisiones tomaron, cómo es de verdad su día a día y qué consejo darían a quien quiera dedicarse a lo mismo.</p>
+      <p class="lead">Historias Profesionales es un pódcast de entrevistas a profesionales de sectores muy distintos. Recorremos su trayectoria, entramos en qué consiste de verdad su trabajo y en la actualidad de su sector, conocemos las historias personales que hay detrás y les trasladamos las preguntas que nos dejáis en redes y en esta web.</p>
       <h3>Quiénes vienen de invitados</h3>
       <p>Por aquí han pasado una azafata, un mago, una arquitecta, un periodista, ingenieros, médicos, consultores, emprendedores… La idea es ir más allá del cargo y la empresa y conocer a la persona: lo mejor y lo peor de su profesión, sus fracasos, sus referentes y las anécdotas que no salen en el currículum.</p>
       <h3>Qué te vas a llevar</h3>
