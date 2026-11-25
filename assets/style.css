@@ -32,7 +32,10 @@ h1,h2,h3{font-family:var(--display);font-weight:400;line-height:1.05;margin:0;le
 
 /* hero */
 .hero{padding:56px 0 28px;background:radial-gradient(900px 420px at 85% 10%,rgba(224,122,74,.13),transparent 70%)}
-.hero-in{display:grid;grid-template-columns:1fr 1.15fr;gap:48px;align-items:center}
+.hero-in{display:grid;grid-template-columns:1fr 1.15fr;grid-template-areas:"text media" "plats media";column-gap:48px;row-gap:0;align-items:center}
+.hero-text{grid-area:text;align-self:end}
+.hero-media{grid-area:media}
+.hero-plats{grid-area:plats;align-self:start}
 .hero h1{font-size:clamp(2.8rem,6vw,5rem);color:var(--cream)}
 .hero h1::after{content:"";display:block;width:72px;height:6px;border-radius:3px;background:var(--orange);margin-top:18px}
 .hero-guest{font-size:1.35rem;font-weight:800;margin:22px 0 4px}
@@ -55,6 +58,12 @@ h1,h2,h3{font-family:var(--display);font-weight:400;line-height:1.05;margin:0;le
 .pbtn{display:inline-flex;align-items:center;gap:8px;text-decoration:none;font-weight:700;font-size:.9rem;padding:10px 16px;border-radius:999px;background:var(--bg2);border:1px solid var(--line);transition:background .2s,border-color .2s,transform .2s}
 .pbtn:hover{background:var(--bg3);border-color:rgba(224,122,74,.6);transform:translateY(-1px)}
 .pbtn .ic{width:18px;height:18px;color:var(--orange)}
+.plats-label{font-weight:800;font-size:.85rem;letter-spacing:.14em;text-transform:uppercase;color:var(--orange);margin:0 0 12px}
+.ep-info .plats-label{margin-top:24px}
+.pbtns-big{display:grid;grid-template-columns:1fr 1fr;gap:10px;max-width:480px}
+.pbtns-big .pbtn{justify-content:flex-start;font-size:1rem;padding:14px 18px;border-radius:14px;line-height:1.2;background:var(--bg3);border-color:rgba(224,122,74,.35)}
+.pbtns-big .pbtn .ic{width:22px;height:22px;flex:none}
+.pbtns-big .pbtn:hover{border-color:var(--orange)}
 
 .ep-desc{margin-top:34px;border-top:1px solid var(--line);padding-top:18px}
 .ep-desc summary{cursor:pointer;font-weight:700;list-style:none;display:flex;align-items:center;gap:10px;color:var(--cream)}
@@ -232,7 +241,9 @@ body.modal-open{overflow:hidden}
 .socials a:hover{color:var(--orange);background:var(--bg2)}
 
 @media (max-width:900px){
-  .hero-in{grid-template-columns:1fr;gap:28px}
+  .hero-in{grid-template-columns:1fr;grid-template-areas:"text" "media" "plats";row-gap:22px}
+  .pbtns-big{max-width:none}
+  .pbtns-big .pbtn{padding:12px 14px}
   .cta-in{flex-direction:column;align-items:flex-start;padding:34px 28px}
   .strip-in{flex-direction:column;align-items:flex-start}
   .preg-in,.sm-in{grid-template-columns:1fr;gap:28px}
