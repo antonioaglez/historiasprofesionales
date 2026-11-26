@@ -172,6 +172,12 @@ def fetch_ivoox():
         html_ = fetch(CFG["ivoox_pages"].format(page)).decode("utf-8", "ignore")
         hits = re.findall(r"ivoox\.com/episodio-(\d+)-[a-z0-9-]*?_rf_(\d+)_1\.html", html_)
         hits += re.findall(r"ivoox\.com/[a-z0-9-]*?-ep-(\d+)_rf_(\d+)_1\.html", html_)
+        # Títulos nuevos («gancho | Nombre - #N» o «· Ep. N»): el número va en el texto, no en la URL
+        for m in re.finditer(r"_rf_(\d+)_1\.html", html_):
+            trozo = re.sub(r"<[^>]+>", " ", html_[m.end():m.end() + 800].split("_rf_")[0])
+            num = re.search(r"(?:#|\bEp\.?\s*)(\d{1,3})\b", trozo)
+            if num:
+                hits.append((num.group(1), m.group(1)))
         if not hits:
             break
         for n, rf in hits:
