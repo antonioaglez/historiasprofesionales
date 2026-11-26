@@ -222,7 +222,10 @@ def icon(name, cls="ic"):
     d = ICONS.get(name)
     if not d:
         return ""
-    return f'<svg class="{cls}" viewBox="0 0 24 24" aria-hidden="true"><path d="{d}"/></svg>'
+    rule = ""
+    if d.startswith("evenodd:"):  # iconos tipo app (cuadrado con el logo recortado)
+        d, rule = d[8:], ' fill-rule="evenodd"'
+    return f'<svg class="{cls}" viewBox="0 0 24 24" aria-hidden="true"><path{rule} d="{d}"/></svg>'
 
 
 
@@ -434,7 +437,8 @@ def yt_thumb(vid):
 def lite_yt(e, rel=""):
     vid = e["youtube"]
     return (f'<button class="lite-yt" data-id="{vid}" aria-label="Ver el episodio {e["num"]} en vídeo">'
-            f'<img src="https://i.ytimg.com/vi/{vid}/hqdefault.jpg" alt="" loading="lazy" width="480" height="360">'
+            f'<img src="https://i.ytimg.com/vi/{vid}/maxresdefault.jpg" alt="" loading="lazy" width="1280" height="720"'
+            f' onerror="this.onerror=null;this.src=\'https://i.ytimg.com/vi/{vid}/hqdefault.jpg\'">'
             f'<span class="play">{icon("play")}</span></button>')
 
 
@@ -713,7 +717,7 @@ def build_index(show, eps):
     count = len([e for e in eps if e["num"]])
     media = lite_yt(latest) if latest["youtube"] else f'<img class="cover" src="{esc(latest["image"])}" alt="">'
     if latest["youtube"]:
-        media = media.replace('loading="lazy" width="480" height="360"', 'fetchpriority="high" width="1280" height="720"').replace("hqdefault", "maxresdefault")
+        media = media.replace('loading="lazy"', 'fetchpriority="high"')
     desc = desc_clean(latest["desc_html"]) or f'<p>{esc(latest["summary"])}</p>'
     num_label = f"Episodio #{latest['num']}" if latest["num"] is not None else ""
     used = [s for s in CFG["sectores"] if any(e["sector"] == s["slug"] for e in eps)]
@@ -792,7 +796,7 @@ def build_episode(e, eps, show):
     prev_e = eps[idx + 1] if idx + 1 < len(eps) else None
     next_e = eps[idx - 1] if idx > 0 else None
     sector = next((s for s in CFG["sectores"] if s["slug"] == e["sector"]), None)
-    media = lite_yt(e, rel) if e["youtube"] else f'<img class="cover" src="{esc(e["image_web"] if e["image_web"].startswith("http") else rel + e["image_web"])}"{fallback_attr(e)} alt="">'
+    media = lite_yt(e, rel).replace('loading="lazy"', 'fetchpriority="high"') if e["youtube"] else f'<img class="cover" src="{esc(e["image_web"] if e["image_web"].startswith("http") else rel + e["image_web"])}"{fallback_attr(e)} alt="">'
     topics = "".join(f'<li><span class="t-emoji" aria-hidden="true">{esc(em)}</span><span>{esc(t)}</span></li>' for em, t in e["topics"])
     topics_html = f'<h2>Temas clave</h2><ul class="topics">{topics}</ul>' if topics else ""
     tr = e["transcript_paras"]
